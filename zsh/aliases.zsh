@@ -1,5 +1,6 @@
 # --- Dev Tools ---
 alias lg='lazygit'
+alias xcopy="xclip -selection clipboard"
 
 # bat (Debian-specific)
 alias cat='batcat'

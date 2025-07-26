@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 # --- Config ---
@@ -34,7 +33,9 @@ sudo apt install -y \
   libxml2-dev \
   libxmlsec1-dev \
   libffi-dev \
-  liblzma-dev
+  liblzma-dev \
+  xclip \
+  keychain
 
 # --- 2. Rust ---
 if ! command -v rustc >/dev/null 2>&1; then
@@ -51,18 +52,33 @@ EZA_FAILED=0
 if ! command -v eza >/dev/null 2>&1; then
   echo "[*] Installing eza..."
 
-  EZA_URL=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
-    | jq -r '.assets[] | select(.name | test("amd64\\.deb$")) | .browser_download_url') || EZA_FAILED=1
-
-  if [ -z "$EZA_URL" ]; then
-    echo "[!] Could not fetch eza .deb URL. Will notify at end."
+  if ! command -v jq >/dev/null 2>&1 || ! command -v curl >/dev/null 2>&1; then
+    echo "[!] 'jq' and/or 'curl' not installed. Aborting eza install."
     EZA_FAILED=1
   else
-    if ! curl -LO "$EZA_URL" || ! sudo apt install -y ./"$(basename "$EZA_URL")"; then
-      echo "[!] eza install failed during download or dpkg. Will notify at end."
+    API_JSON=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest)
+    if [ $? -ne 0 ] || [ -z "$API_JSON" ]; then
+      echo "[!] Failed to fetch release info from GitHub."
       EZA_FAILED=1
     else
-      rm ./"$(basename "$EZA_URL")"
+      EZA_URL=$(echo "$API_JSON" | jq -r '.assets[] | select(.name | test("amd64\\.deb$")) | .browser_download_url')
+      if [ -z "$EZA_URL" ]; then
+        echo "[!] Could not find a matching .deb file URL for amd64."
+        EZA_FAILED=1
+      else
+        FILE=$(basename "$EZA_URL")
+        echo "[*] Downloading $FILE"
+        if ! curl -LO "$EZA_URL"; then
+          echo "[!] Download failed."
+          EZA_FAILED=1
+        elif ! sudo apt install -y ./"$FILE"; then
+          echo "[!] apt install failed."
+          EZA_FAILED=1
+        else
+          echo "[*] eza installed successfully."
+          rm -f "$FILE"
+        fi
+      fi
     fi
   fi
 else
@@ -77,7 +93,17 @@ else
   echo "[*] pyenv already installed. Skipping."
 fi
 
+# --- 4.1 pyenv-virtualenv plugin ---
+if [ ! -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
+  echo "[*] Installing pyenv-virtualenv plugin..."
+  git clone https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
+else
+  echo "[*] pyenv-virtualenv already installed. Skipping."
+fi
+
 export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"  # this will now work
 
 if ! command -v pyenv >/dev/null 2>&1; then
   echo "[!] pyenv not found in PATH after install. Check manually."
