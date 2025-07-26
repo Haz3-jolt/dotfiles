@@ -46,13 +46,25 @@ else
 fi
 
 # --- 3. eza ---
+EZA_FAILED=0
+
 if ! command -v eza >/dev/null 2>&1; then
   echo "[*] Installing eza..."
-  URL=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
-    | jq -r '.assets[] | select(.name | endswith("_amd64.deb")) | .browser_download_url')
-  curl -LO "$URL"
-  sudo apt install -y ./eza_*_amd64.deb
-  rm ./eza_*_amd64.deb
+
+  EZA_URL=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
+    | jq -r '.assets[] | select(.name | test("amd64\\.deb$")) | .browser_download_url') || EZA_FAILED=1
+
+  if [ -z "$EZA_URL" ]; then
+    echo "[!] Could not fetch eza .deb URL. Will notify at end."
+    EZA_FAILED=1
+  else
+    if ! curl -LO "$EZA_URL" || ! sudo apt install -y ./"$(basename "$EZA_URL")"; then
+      echo "[!] eza install failed during download or dpkg. Will notify at end."
+      EZA_FAILED=1
+    else
+      rm ./"$(basename "$EZA_URL")"
+    fi
+  fi
 else
   echo "[*] eza already installed. Skipping."
 fi
@@ -96,3 +108,7 @@ ln -snf "$DOTFILES_DIR/config" "$CONFIG_DIR"
 
 # --- Done ---
 echo "[✔] Installation complete. Restart terminal or run: exec zsh"
+
+if [ "$EZA_FAILED" -eq 1 ]; then
+  echo "[!] Warning: eza failed to install. You can try installing manually from https://github.com/eza-community/eza"
+fi
