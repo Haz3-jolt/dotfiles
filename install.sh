@@ -47,39 +47,13 @@ else
 fi
 
 # --- 3. eza ---
-EZA_FAILED=0
-
 if ! command -v eza >/dev/null 2>&1; then
-  echo "[*] Installing eza..."
-
-  if ! command -v jq >/dev/null 2>&1 || ! command -v curl >/dev/null 2>&1; then
-    echo "[!] 'jq' and/or 'curl' not installed. Aborting eza install."
-    EZA_FAILED=1
+  echo "[*] Installing eza via apt..."
+  if sudo apt install -y eza; then
+    echo "[*] eza installed successfully."
   else
-    API_JSON=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest)
-    if [ $? -ne 0 ] || [ -z "$API_JSON" ]; then
-      echo "[!] Failed to fetch release info from GitHub."
-      EZA_FAILED=1
-    else
-      EZA_URL=$(echo "$API_JSON" | jq -r '.assets[] | select(.name | test("amd64\\.deb$")) | .browser_download_url')
-      if [ -z "$EZA_URL" ]; then
-        echo "[!] Could not find a matching .deb file URL for amd64."
-        EZA_FAILED=1
-      else
-        FILE=$(basename "$EZA_URL")
-        echo "[*] Downloading $FILE"
-        if ! curl -LO "$EZA_URL"; then
-          echo "[!] Download failed."
-          EZA_FAILED=1
-        elif ! sudo apt install -y ./"$FILE"; then
-          echo "[!] apt install failed."
-          EZA_FAILED=1
-        else
-          echo "[*] eza installed successfully."
-          rm -f "$FILE"
-        fi
-      fi
-    fi
+    echo "[!] apt install failed for eza. Will notify at end."
+    EZA_FAILED=1
   fi
 else
   echo "[*] eza already installed. Skipping."
