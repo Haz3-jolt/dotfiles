@@ -21,3 +21,14 @@ editfunc() { nano ~/dotfiles/zsh/functions.zsh }
 editplugins() { nano ~/dotfiles/zsh/plugins.zsh }
 editprompt() { nano ~/dotfiles/zsh/prompt.zsh }
 
+# --- Repo Update ---
+gacp() {
+  if [ -z "$1" ]; then
+    echo "Usage: gacp \"commit message\""
+    return 1
+  fi
+  git add .
+  git commit -m "$1"
+  git push origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+

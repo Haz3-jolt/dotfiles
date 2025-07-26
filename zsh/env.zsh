@@ -1,5 +1,5 @@
 # --- Pyenv Setup ---
-if ! command -v pyenv >/dev/null; then
+if [ ! -d "$HOME/.pyenv" ]; then
   curl https://pyenv.run | bash
 fi
 export PYENV_ROOT="$HOME/.pyenv"
