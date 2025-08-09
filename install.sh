@@ -35,8 +35,7 @@ sudo apt install -y \
   libffi-dev \
   liblzma-dev \
   xclip \
-  keychain \
-  fzf
+  keychain
 
 # --- 2. Rust ---
 if ! command -v rustc >/dev/null 2>&1; then
@@ -93,6 +92,16 @@ else
 fi
 
 pyenv global "$PYTHON_VERSION"
+
+# --- 2. fzf ---
+if ! command -v fzf >/dev/null 2>&1; then
+  echo "[*] Installing fzf from GitHub..."
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --key-bindings --completion --no-update-rc
+else
+  echo "[*] fzf already installed. Skipping."
+fi
+
 
 # --- 5. Zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then

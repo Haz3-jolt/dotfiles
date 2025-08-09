@@ -12,3 +12,4 @@ source ~/dotfiles/zsh/functions.zsh
 
 # --- Load Prompt (Starship) ---
 source ~/dotfiles/zsh/prompt.zsh
+
