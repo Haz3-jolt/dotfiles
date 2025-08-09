@@ -35,7 +35,8 @@ sudo apt install -y \
   libffi-dev \
   liblzma-dev \
   xclip \
-  keychain
+  keychain \
+  fzf
 
 # --- 2. Rust ---
 if ! command -v rustc >/dev/null 2>&1; then
