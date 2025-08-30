@@ -93,7 +93,7 @@ fi
 
 pyenv global "$PYTHON_VERSION"
 
-# --- 2. fzf ---
+# --- 5. fzf ---
 if ! command -v fzf >/dev/null 2>&1; then
   echo "[*] Installing fzf from GitHub..."
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -102,14 +102,23 @@ else
   echo "[*] fzf already installed. Skipping."
 fi
 
+# --- 6. Zoxide ---
+if ! command -v zoxide >/dev/null 2>&1; then
+    echo "[*] Installing zoxide..."
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"  # add for current shell
+else
+    echo "[*] zoxide already installed. Skipping."
+fi
 
-# --- 5. Zsh ---
+
+# --- 7. Zsh ---
 if [ "$SHELL" != "$(which zsh)" ]; then
   echo "[*] Setting Zsh as default shell..."
   chsh -s "$(which zsh)"
 fi
 
-# --- 6. Dotfiles Linking ---
+# --- 8. Dotfiles Linking ---
 echo "[*] Linking dotfiles..."
 ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$ZSHRC"
 
@@ -122,3 +131,4 @@ echo "[✔] Installation complete. Restart terminal or run: exec zsh"
 if [ "$EZA_FAILED" -eq 1 ]; then
   echo "[!] Warning: eza failed to install. You can try installing manually from https://github.com/eza-community/eza"
 fi
+

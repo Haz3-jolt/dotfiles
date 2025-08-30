@@ -1,6 +1,6 @@
 # --- Custom functions ---
 mkcd() {
-  mkdir -p -- "$1" && cd -P -- "$1"
+  mkdir -p -- "$1" && zoxide add "$1" && cd "$1"
 }
 reload() {
   source ~/.zshrc

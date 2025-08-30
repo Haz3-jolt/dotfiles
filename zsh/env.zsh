@@ -24,8 +24,9 @@ else
 fi
 
 # --- Zoxide (smarter cd) ---
+export PATH="$HOME/.local/bin:$PATH"
 if command -v zoxide >/dev/null; then
-  eval "$(zoxide init zsh)"
+  eval "$(zoxide init zsh --cmd cd --hook prompt)"
 fi
 
 # --- FZF (fuzzy finder) ---
