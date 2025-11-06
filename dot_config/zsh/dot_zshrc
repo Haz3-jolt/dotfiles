@@ -1,0 +1,9 @@
+# --- Zsh XDG Configuration ---
+export ZDOTDIR="$HOME/.config/zsh"
+
+source "${ZDOTDIR}/env.zsh"
+source "${ZDOTDIR}/plugins.zsh"
+source "${ZDOTDIR}/aliases.zsh"
+source "${ZDOTDIR}/functions.zsh"
+source "${ZDOTDIR}/prompt.zsh"
+source "${ZDOTDIR}/startup_workflows.zsh"

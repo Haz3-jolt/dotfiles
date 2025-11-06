@@ -1,0 +1,28 @@
+: 1762465969:0;source ~/.zshrc
+: 1762466103:0;source ~/.zshrc
+: 1762466892:0;source ~/.zshrc
+: 1762469610:0;source ~/.zshrc
+: 1762469765:0;ls ~/.config/zsh
+: 1762469817:0;eeditrcc
+: 1762469822:0;eeditrc
+: 1762469827:0;editrc
+: 1762470090:0;source ~/.zshrc
+: 1762470111:0;$ZDOTDIR/.zshrc
+: 1762470143:0;nano $ZDOTDIR/.zshrc
+: 1762470162:0;ln -s ../.zshrc $ZDOTDIR/.zshrc
+: 1762470171:2;nano $ZDOTDIR/.zshrc
+: 1762470175:0;ln -s ../.zshrc $ZDOTDIR/.zshrc
+: 1762470181:0;source ~/.zshrc
+: 1762470264:0;echo $SHELL\
+
+: 1762470271:6;chsh -s $(which zsh)\
+
+: 1762470305:0;echo $-\
+
+: 1762470333:0;echo $HOME\
+ls -a $HOME | grep zshrc\
+
+: 1762470357:0;echo $ZDOTDIR\
+
+: 1762470429:0;source ~/.zshrc
+: 1762470431:0;mv /home/haz3/.zshrc /home/haz3/.config/zsh/.zshrc
