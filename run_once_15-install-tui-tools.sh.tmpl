@@ -4,20 +4,25 @@
 set -euo pipefail
 
 ANTIDOTE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.antidote"
+ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 
 if [[ -d "$ANTIDOTE_DIR" ]]; then
   echo "🔄 Syncing ZSH plugins..."
-  source "$ANTIDOTE_DIR/antidote.zsh"
-  antidote update
-  
-  # Recompile zsh files
+
+  # Run antidote inside zsh (IMPORTANT FIX)
+  ZDOTDIR="$ZDOTDIR" zsh -c "
+    source '$ANTIDOTE_DIR/antidote.zsh'
+    antidote update
+  "
+
   echo "⚡ Compiling ZSH configs..."
-  ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+
   for f in "$ZDOTDIR"/*.zsh; do
-    zsh -c "zcompile '$f'" 2>/dev/null || true
+    zsh -c \"zcompile '$f'\" 2>/dev/null || true
   done
-  
+
   echo "✅ Plugins synced"
+
 else
-  echo "⚠️  Antidote not found, skipping plugin sync"
+  echo "⚠️ Antidote not found, skipping plugin sync"
 fi
