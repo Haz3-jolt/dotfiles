@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+export PATH="$HOME/.local/bin:$PATH"
+
+if command -v mise >/dev/null; then
+  eval "$(mise activate bash)"
+fi
+
+if command -v npm >/dev/null; then
+  echo "📦 Installing global npm packages..."
+  npm install -g \
+    typescript \
+    prettier \
+    eslint \
+    tldr \
+    live-server \
+    nodemon \
+    pnpm
+else
+  echo "⚠️  npm not found, skipping global packages"
+fi

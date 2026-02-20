@@ -1,0 +1,20 @@
+{{- $email := promptStringOnce . "email" "harisrini21@gmail.com" -}}
+{{- $name := promptStringOnce . "name" "Hari Srinivasan" -}}
+
+[data]
+  email = {{ $email | quote }}
+  name = {{ $name | quote }}
+
+[git]
+  autoCommit = false
+  autoPush = false
+
+[diff]
+  pager = "delta"
+
+[edit]
+  command = "nvim"
+
+[age]
+  identity = "~/.config/chezmoi/key.txt"
+  recipient = ""  # Run: age-keygen to generate, add public key here

@@ -1,0 +1,6 @@
+**/*.zwc
+README.md
+LICENSE
+.git
+.gitignore
+refactor.md

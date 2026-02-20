@@ -1,0 +1,34 @@
+#!/bin/bash
+set -euo pipefail
+
+SSH_KEY="$HOME/.ssh/id_ed25519"
+
+if [ ! -f "$SSH_KEY" ]; then
+  echo "🔑 Generating SSH key..."
+  mkdir -p "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
+  ssh-keygen -t ed25519 -C "{{ .email }}" -f "$SSH_KEY" -N ""
+  
+  echo ""
+  echo "📋 Add this public key to GitHub/GitLab:"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  cat "${SSH_KEY}.pub"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "GitHub: https://github.com/settings/keys"
+  echo "GitLab: https://gitlab.com/-/profile/keys"
+else
+  echo "✅ SSH key already exists"
+fi
+
+# Configure SSH
+if [ ! -f "$HOME/.ssh/config" ]; then
+  cat > "$HOME/.ssh/config" <<EOF
+Host *
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 60
+  ServerAliveCountMax 3
+EOF
+  chmod 600 "$HOME/.ssh/config"
+fi

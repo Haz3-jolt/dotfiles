@@ -1,0 +1,23 @@
+#!/bin/bash
+# plugins hash: {{ include "dot_config/zsh/plugins.zsh" | sha256sum }}
+# plugins list hash: {{ include "dot_config/zsh/dot_zsh_plugins.txt" | sha256sum }}
+set -euo pipefail
+
+ANTIDOTE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.antidote"
+
+if [[ -d "$ANTIDOTE_DIR" ]]; then
+  echo "🔄 Syncing ZSH plugins..."
+  source "$ANTIDOTE_DIR/antidote.zsh"
+  antidote update
+  
+  # Recompile zsh files
+  echo "⚡ Compiling ZSH configs..."
+  ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+  for f in "$ZDOTDIR"/*.zsh; do
+    zsh -c "zcompile '$f'" 2>/dev/null || true
+  done
+  
+  echo "✅ Plugins synced"
+else
+  echo "⚠️  Antidote not found, skipping plugin sync"
+fi

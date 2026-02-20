@@ -1,0 +1,44 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "📦 Installing system packages..."
+
+{{ if eq .chezmoi.osRelease.id "ubuntu" "debian" "pop" }}
+sudo apt update -qq
+sudo apt install -y \
+  zsh git curl wget unzip jq tree \
+  build-essential cmake pkg-config \
+  ripgrep fd-find bat fzf tmux neovim \
+  python3 python3-pip python3-venv \
+  openssh-client gpg wl-clipboard \
+  direnv
+  
+# Fix bat/fd naming on Debian/Ubuntu
+[ ! -f /usr/local/bin/bat ] && sudo ln -s /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
+[ ! -f /usr/local/bin/fd ] && sudo ln -s /usr/bin/fdfind /usr/local/bin/fd 2>/dev/null || true
+
+{{ else if eq .chezmoi.osRelease.id "arch" "endeavouros" "manjaro" }}
+sudo pacman -S --needed --noconfirm \
+  zsh git curl wget unzip jq tree \
+  base-devel cmake \
+  ripgrep fd bat eza fzf zoxide \
+  tmux neovim starship \
+  btop dust duf procs sd tokei \
+  hyperfine watchexec yazi xh \
+  git-delta just lazygit github-cli \
+  direnv dog gping bandwhich \
+  jless yq age sops glow tldr \
+  fastfetch wl-clipboard
+
+{{ else if eq .chezmoi.osRelease.id "fedora" }}
+sudo dnf install -y \
+  zsh git curl wget unzip jq tree \
+  @development-tools cmake \
+  ripgrep fd-find bat fzf \
+  tmux neovim \
+  python3 python3-pip \
+  openssh gnupg2 wl-clipboard \
+  direnv
+{{ end }}
+
+echo "✅ System packages installed"
