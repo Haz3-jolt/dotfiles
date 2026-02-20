@@ -1,0 +1,10 @@
+[Unit]
+Description=Chezmoi dotfiles sync
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/chezmoi update --apply --no-tty
+StandardOutput=journal
+StandardError=journal
