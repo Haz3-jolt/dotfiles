@@ -44,13 +44,11 @@ if command -v cargo >/dev/null; then
 
     # System info
     fastfetch
-    cbonsai
 
     # Viewing
     glow
 
     # Extras
-    bat-extras
     tealdeer
   )
 
