@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+# ZSH Configuration - Main Entry Point
+
+# Set ZDOTDIR if not already set
+export ZDOTDIR="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}"
+
+# Load configuration modules in order
+source "$ZDOTDIR/env.zsh"
+source "$ZDOTDIR/plugins.zsh"
+source "$ZDOTDIR/aliases.zsh"
+source "$ZDOTDIR/functions.zsh"
+source "$ZDOTDIR/prompt.zsh"
+
+# Compile zsh files for faster loading (background)
+{
+  autoload -U zrecompile
+  for f in "$ZDOTDIR"/*.zsh; do
+    [[ ! -f "${f}.zwc" || "$f" -nt "${f}.zwc" ]] && zcompile "$f"
+  done
+} &!
