@@ -46,9 +46,6 @@ if command -v cargo >/dev/null; then
     # System info
     fastfetch
 
-    # Viewing
-    glow
-
     # Extras
     tealdeer
   )
@@ -74,6 +71,16 @@ if command -v cargo >/dev/null; then
     fi
 
   done
+fi
+
+# Install glow (Go binary, not available via cargo)
+if ! command -v glow >/dev/null; then
+  echo "Installing glow..."
+  GLOW_VERSION=$(curl -s https://api.github.com/repos/charmbracelet/glow/releases/latest | grep -Po '"tag_name": "v\K[^"]*')
+  curl -Lo glow.tar.gz "https://github.com/charmbracelet/glow/releases/latest/download/glow_${GLOW_VERSION}_Linux_x86_64.tar.gz"
+  tar xf glow.tar.gz glow
+  install glow ~/.local/bin
+  rm glow glow.tar.gz
 fi
 
 # Install lazygit (not available via cargo)
