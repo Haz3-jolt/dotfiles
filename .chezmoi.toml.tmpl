@@ -1,5 +1,17 @@
-{{- $email := promptStringOnce . "email" "Email address" -}}
-{{- $name := promptStringOnce . "name" "Full name" -}}
+{{- $email := "" -}}
+{{- $name := "" -}}
+{{- if hasKey .chezmoi.config.data "email" -}}
+{{-   $email = .chezmoi.config.data.email -}}
+{{- end -}}
+{{- if hasKey .chezmoi.config.data "name" -}}
+{{-   $name = .chezmoi.config.data.name -}}
+{{- end -}}
+{{- if not $email -}}
+{{-   $email = promptString "Email address" -}}
+{{- end -}}
+{{- if not $name -}}
+{{-   $name = promptString "Full name" -}}
+{{- end -}}
 
 [data]
   email = {{ $email | quote }}
