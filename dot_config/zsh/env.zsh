@@ -64,6 +64,14 @@ path=(
   "$HOME/.cargo/bin"
   "$BUN_INSTALL/bin"
   "$XDG_DATA_HOME/mise/shims"
+  "$HOME/google-cloud-sdk/bin"
   $path
 )
 export PATH
+
+# --- Google Cloud SDK ---
+source "$HOME/google-cloud-sdk/path.zsh.inc" 2>/dev/null
+source "$HOME/google-cloud-sdk/completion.zsh.inc" 2>/dev/null
+
+# --- Load sensitive keys and credentials ---
+source "$ZDOTDIR/keys.zsh"
