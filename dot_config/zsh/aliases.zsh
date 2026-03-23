@@ -52,7 +52,6 @@ alias dex="docker exec -it"
 command -v yazi      >/dev/null && alias y="yazi"
 command -v just      >/dev/null && alias j="just"
 command -v nvim      >/dev/null && alias vim="nvim"
-command -v glow      >/dev/null && alias md="glow"
 
 # --- Safety ---
 alias rm="rm -i"

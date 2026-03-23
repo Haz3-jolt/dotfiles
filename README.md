@@ -51,7 +51,6 @@ That's it. Grab a coffee — everything installs automatically.
 - **watchexec** — file watcher
 - **tokei** — code statistics
 - **xh** — friendly HTTP client
-- **glow** — markdown renderer
 - **jless** — JSON viewer
 - **tldr** — simplified man pages
 - **atuin** — shell history search & sync
@@ -169,7 +168,6 @@ These are stored in `~/.config/chezmoi/chezmoi.toml` and only asked once.
 | `y` | `yazi` (cd on exit) |
 | `j` | `just` |
 | `vim` | `nvim` |
-| `md` | `glow` |
 
 #### Safety
 | Alias | Effect |
