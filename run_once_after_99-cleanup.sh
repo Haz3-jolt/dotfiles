@@ -41,6 +41,7 @@ if command -v cargo >/dev/null; then
     # TUI tools
     bottom
     gitui
+    zellij
 
     # System info
     fastfetch

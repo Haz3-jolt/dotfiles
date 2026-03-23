@@ -78,6 +78,7 @@ alias -- -="cd -"
 alias h="history"
 alias c="clear"
 alias e="$EDITOR"
+alias reload="exec zsh"
 
 # --- System ---
 alias update="sudo apt update && sudo apt upgrade"  # Debian/Ubuntu
