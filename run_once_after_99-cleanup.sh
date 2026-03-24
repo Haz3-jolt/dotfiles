@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Ensure cargo is in PATH (installed in a previous script's shell)
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+
 echo "🧹 Cleaning up..."
 
 # Remove orphaned zwc files
