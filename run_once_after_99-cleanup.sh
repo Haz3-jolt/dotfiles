@@ -33,7 +33,6 @@ if command -v cargo >/dev/null; then
     just
 
     # File / data
-    yazi-fm
     jless
     xh
     git-delta
@@ -58,7 +57,6 @@ if command -v cargo >/dev/null; then
     case "$tool" in
       du-dust) binary="dust" ;;
       watchexec-cli) binary="watchexec" ;;
-      yazi-fm) binary="yazi" ;;
       git-delta) binary="delta" ;;
       fd-find) binary="fd" ;;
       bat-extras) binary="batgrep" ;;
@@ -74,6 +72,15 @@ if command -v cargo >/dev/null; then
     fi
 
   done
+
+  # Install yazi (requires yazi-build)
+  if ! command -v yazi >/dev/null 2>&1; then
+    echo "  Installing yazi via yazi-build..."
+    cargo install --force yazi-build --locked
+    yazi-build
+  else
+    echo "  ✔ yazi already installed"
+  fi
 fi
 
 # Install lazygit (not available via cargo)
