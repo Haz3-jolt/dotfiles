@@ -5,7 +5,7 @@ Fully automated development environment setup managed with [chezmoi](https://che
 ## Quick Start
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply Haz3-jolt/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply Haz3-jolt
 ```
 
 That's it. Grab a coffee — everything installs automatically.
