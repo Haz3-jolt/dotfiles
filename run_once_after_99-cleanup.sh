@@ -45,9 +45,6 @@ if command -v cargo >/dev/null; then
     gitui
     zellij
 
-    # System info
-    fastfetch
-
     # Extras
     tealdeer
   )
