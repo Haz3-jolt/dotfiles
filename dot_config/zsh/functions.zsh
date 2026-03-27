@@ -82,7 +82,9 @@ function hs() {
 # --- Update all tools ---
 function update-all() {
   echo "📦 Updating system packages..."
-  if command -v apt >/dev/null; then
+  if command -v brew >/dev/null; then
+    brew update && brew upgrade
+  elif command -v apt >/dev/null; then
     sudo apt update && sudo apt upgrade -y
   elif command -v pacman >/dev/null; then
     sudo pacman -Syu --noconfirm

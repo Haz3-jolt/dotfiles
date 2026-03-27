@@ -1,6 +1,6 @@
 # Haz3's Dotfiles
 
-Fully automated development environment setup managed with [chezmoi](https://chezmoi.io). One command to go from a fresh Linux install to a fully configured shell with 50+ modern CLI tools.
+Fully automated development environment setup managed with [chezmoi](https://chezmoi.io). One command to go from a fresh Linux or macOS install to a fully configured shell with 50+ modern CLI tools.
 
 ## Quick Start
 
@@ -39,7 +39,7 @@ That's it. Grab a coffee — everything installs automatically.
 | `sed` | `sd` | Intuitive find & replace |
 | `top` | `btop` | Beautiful resource monitor |
 | `diff` | `delta` | Syntax-aware git diffs |
-| `dig` | `dog` | DNS lookup (Arch only) |
+| `dig` | `dog` / `doggo` | DNS lookup (`dog` on Arch, `doggo` on macOS) |
 
 ### Developer Tools
 - **fzf** — fuzzy finder (Ctrl+T, Alt+C, Ctrl+R)
@@ -72,10 +72,11 @@ That's it. Grab a coffee — everything installs automatically.
 - **ssh-agent** — auto-started via systemd user service
 - **chezmoi-sync** — auto-syncs dotfiles every 6 hours
 
-## Supported Distros
+## Supported Platforms
 
-| Distro | Package Manager |
-|--------|----------------|
+| Platform | Package Manager |
+|----------|----------------|
+| macOS | Homebrew |
 | Ubuntu / Debian / Pop!_OS | apt |
 | Arch / EndeavourOS / Manjaro | pacman |
 | Fedora | dnf |
@@ -86,7 +87,7 @@ Tools not available via system packages are installed through Rust's `cargo inst
 
 The bootstrap runs numbered scripts in order:
 
-1. **System packages** — installs core tools via your distro's package manager
+1. **System packages** — installs core tools via Homebrew (macOS) or your distro's package manager (Linux)
 2. **Zsh** — set as default shell (`chsh`)
 3. **Starship** — prompt installed via official installer
 4. **mise** — runtime version manager
@@ -98,8 +99,8 @@ The bootstrap runs numbered scripts in order:
 10. **npm globals** — typescript, prettier, eslint, pnpm, etc.
 11. **SSH key** — generates ed25519 key, prints public key for GitHub
 12. **XDG dirs** — creates standard directories
-13. **ssh-agent** — enables systemd user service
-14. **Auto-sync** — enables chezmoi sync timer
+13. **ssh-agent** — enables systemd user service (Linux only)
+14. **Auto-sync** — enables chezmoi sync timer (Linux only)
 15. **ZSH plugins** — syncs and compiles plugins
 16. **Cargo tools** — installs 20+ Rust-based CLI tools
 17. **Cleanup** — installs lazygit, final setup
@@ -301,6 +302,18 @@ After the bootstrap completes:
 │       ├── prompt.zsh                    # starship init (with fallback)
 │       └── .zsh_plugins.txt              # antidote plugin list
 ```
+
+## macOS Limitations
+
+Most tools install and work identically on macOS via Homebrew. The following are not available or behave differently:
+
+| Feature | macOS Status |
+|---------|-------------|
+| `dog` (DNS lookup) | Not available — use `doggo` (installed via brew) or built-in `dig` |
+| systemd services | Not available — no auto-sync timer or systemd ssh-agent |
+| `wl-copy` / `wl-paste` | Not needed — macOS has native `pbcopy` / `pbpaste` |
+| `bandwhich` | Requires `sudo` on macOS |
+| `netstat -tulanp` (`ports` alias) | Flags differ on macOS — use `lsof -i -P \| grep LISTEN` instead |
 
 ## License
 

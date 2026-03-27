@@ -26,6 +26,7 @@ command -v procs     >/dev/null && alias ps="procs"
 command -v sd        >/dev/null && alias sed="sd"
 command -v btop      >/dev/null && alias top="btop"
 command -v dog       >/dev/null && alias dig="dog"
+command -v doggo    >/dev/null && alias dig="doggo"
 command -v rg        >/dev/null && alias grep="rg"
 
 # --- Git (with lazygit) ---
@@ -80,8 +81,19 @@ alias e="$EDITOR"
 alias reload="exec zsh"
 
 # --- System ---
-alias update="sudo apt update && sudo apt upgrade"  # Debian/Ubuntu
-alias cleanup="sudo apt autoremove && sudo apt autoclean"
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias update="brew update && brew upgrade"
+  alias cleanup="brew cleanup"
+elif command -v apt >/dev/null; then
+  alias update="sudo apt update && sudo apt upgrade"
+  alias cleanup="sudo apt autoremove && sudo apt autoclean"
+elif command -v pacman >/dev/null; then
+  alias update="sudo pacman -Syu"
+  alias cleanup="sudo pacman -Rns \$(pacman -Qdtq) 2>/dev/null || true"
+elif command -v dnf >/dev/null; then
+  alias update="sudo dnf upgrade"
+  alias cleanup="sudo dnf autoremove"
+fi
 
 # --- Networking ---
 alias myip="curl ifconfig.me"

@@ -51,8 +51,10 @@ export MISE_CONFIG_DIR="$XDG_CONFIG_HOME/mise"
 # --- Bun (JavaScript runtime) ---
 export BUN_INSTALL="$HOME/.bun"
 
-# --- SSH Agent (systemd-managed) ---
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+# --- SSH Agent ---
+if [[ "$OSTYPE" == linux* ]] && [[ -n "$XDG_RUNTIME_DIR" ]]; then
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi
 
 # --- GPG ---
 export GPG_TTY=$(tty)

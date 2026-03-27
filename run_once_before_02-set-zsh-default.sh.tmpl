@@ -3,7 +3,11 @@ set -euo pipefail
 
 if [ "$SHELL" != "$(command -v zsh)" ]; then
   echo "🐚 Setting ZSH as default shell..."
+{{ if eq .chezmoi.os "darwin" }}
+  chsh -s "$(command -v zsh)"
+{{ else }}
   sudo chsh -s "$(command -v zsh)" "$USER"
+{{ end }}
   echo "⚠️  You'll need to log out and back in for this to take effect"
 else
   echo "✅ ZSH already default shell"

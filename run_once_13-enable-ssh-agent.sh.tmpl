@@ -1,8 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+{{ if eq .chezmoi.os "linux" }}
 echo "🔑 Enabling systemd ssh-agent..."
 systemctl --user daemon-reload
 systemctl --user enable --now ssh-agent.service
-
 echo "✅ SSH agent enabled"
+{{ else }}
+echo "✅ Skipping ssh-agent setup (not needed on macOS)"
+{{ end }}

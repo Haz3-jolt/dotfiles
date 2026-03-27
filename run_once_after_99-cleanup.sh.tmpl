@@ -81,6 +81,7 @@ if command -v cargo >/dev/null; then
   fi
 fi
 
+{{ if eq .chezmoi.os "linux" }}
 # Install lazygit (not available via cargo)
 if ! command -v lazygit >/dev/null; then
   echo "Installing lazygit..."
@@ -99,6 +100,7 @@ if ! command -v sops >/dev/null; then
   install sops ~/.local/bin
   rm sops
 fi
+{{ end }}
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

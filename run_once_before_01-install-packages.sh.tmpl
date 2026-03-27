@@ -3,7 +3,26 @@ set -euo pipefail
 
 echo "📦 Installing system packages..."
 
-{{ if eq .chezmoi.osRelease.id "ubuntu" "debian" "pop" }}
+{{ if eq .chezmoi.os "darwin" }}
+# Install Homebrew if missing
+if ! command -v brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+brew install \
+  zsh git curl wget unzip jq tree \
+  cmake \
+  ripgrep fd bat eza fzf zoxide \
+  tmux neovim starship \
+  btop dust duf procs sd tokei \
+  hyperfine watchexec yazi xh \
+  git-delta just lazygit gh \
+  direnv doggo gping bandwhich \
+  jless yq age sops tldr \
+  fastfetch atuin
+
+{{ else if eq .chezmoi.os "linux" }}
+{{   if eq .chezmoi.osRelease.id "ubuntu" "debian" "pop" }}
 sudo apt update -qq
 sudo apt install -y \
   zsh git curl wget unzip jq tree \
@@ -18,7 +37,7 @@ sudo apt install -y \
 [ ! -f /usr/local/bin/bat ] && sudo ln -s /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
 [ ! -f /usr/local/bin/fd ] && sudo ln -s /usr/bin/fdfind /usr/local/bin/fd 2>/dev/null || true
 
-{{ else if eq .chezmoi.osRelease.id "arch" "endeavouros" "manjaro" }}
+{{   else if eq .chezmoi.osRelease.id "arch" "endeavouros" "manjaro" }}
 sudo pacman -S --needed --noconfirm \
   zsh git curl wget unzip jq tree \
   base-devel cmake \
@@ -31,7 +50,7 @@ sudo pacman -S --needed --noconfirm \
   jless yq age sops tldr \
   fastfetch wl-clipboard
 
-{{ else if eq .chezmoi.osRelease.id "fedora" }}
+{{   else if eq .chezmoi.osRelease.id "fedora" }}
 sudo dnf install -y \
   zsh git curl wget unzip jq tree \
   @development-tools cmake \
@@ -41,6 +60,7 @@ sudo dnf install -y \
   openssh gnupg2 wl-clipboard \
   libxcb-devel xcb-util-renderutil-devel \
   direnv fastfetch btop gh age yq
+{{   end }}
 {{ end }}
 
 echo "✅ System packages installed"
