@@ -1,0 +1,72 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+echo "📦 Installing packages via Homebrew..."
+
+# Install Homebrew if missing
+if ! command -v brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+# Shell
+brew "zsh"
+brew "starship"
+
+# Core utils
+brew "git"
+brew "curl"
+brew "wget"
+brew "unzip"
+brew "jq"
+brew "tree"
+brew "cmake"
+
+# Modern CLI replacements
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "eza"
+brew "fzf"
+brew "zoxide"
+brew "dust"
+brew "duf"
+brew "procs"
+brew "sd"
+brew "btop"
+brew "tokei"
+brew "git-delta"
+
+# Dev tools
+brew "tmux"
+brew "neovim"
+brew "hyperfine"
+brew "watchexec"
+brew "yazi"
+brew "xh"
+brew "just"
+brew "lazygit"
+brew "gh"
+brew "jless"
+brew "yq"
+brew "direnv"
+brew "fastfetch"
+brew "atuin"
+brew "tldr"
+
+# DNS
+brew "doggo"
+
+# Networking
+brew "gping"
+brew "bandwhich"
+
+# Security
+brew "age"
+brew "sops"
+EOF
+
+echo "✅ Homebrew packages installed"
+{{ end -}}

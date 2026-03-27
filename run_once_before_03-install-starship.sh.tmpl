@@ -1,9 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+{{ if eq .chezmoi.os "darwin" }}
+echo "✅ Starship installed via Homebrew"
+{{ else }}
 if ! command -v starship >/dev/null; then
   echo "🚀 Installing Starship prompt..."
   curl -sS https://starship.rs/install.sh | sh -s -- -y
 else
   echo "✅ Starship already installed"
 fi
+{{ end }}
