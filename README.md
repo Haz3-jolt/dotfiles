@@ -52,10 +52,21 @@ That's it. Grab a coffee — everything installs automatically.
 - **tokei** — code statistics
 - **xh** — friendly HTTP client
 - **jless** — JSON viewer
+- **yq** — YAML processor
 - **tldr** — simplified man pages
 - **atuin** — shell history search & sync
 - **direnv** — auto-load project environments
 - **fastfetch** — system info
+- **bottom** (btm) — terminal system monitor (alternative to btop)
+- **gh** — GitHub CLI
+
+### Security & Encryption
+- **age** — simple file encryption
+- **sops** — encrypted secrets management
+
+### Networking
+- **gping** — ping with a graph
+- **bandwhich** — bandwidth utilization monitor
 
 ### System Services (systemd)
 - **ssh-agent** — auto-started via systemd user service

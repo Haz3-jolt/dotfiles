@@ -47,6 +47,7 @@ if command -v cargo >/dev/null; then
 
     # Extras
     tealdeer
+    bandwhich
   )
 
   for tool in "${CARGO_TOOLS[@]}"; do
@@ -88,6 +89,15 @@ if ! command -v lazygit >/dev/null; then
   tar xf lazygit.tar.gz lazygit
   install lazygit ~/.local/bin
   rm lazygit lazygit.tar.gz
+fi
+
+# Install sops (Go binary, not available via cargo)
+if ! command -v sops >/dev/null; then
+  echo "Installing sops..."
+  SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | grep -Po '"tag_name": "v\K[^"]*')
+  curl -Lo sops "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64"
+  install sops ~/.local/bin
+  rm sops
 fi
 
 echo ""
