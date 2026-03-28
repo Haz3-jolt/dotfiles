@@ -1,10 +1,11 @@
 {{- if eq .chezmoi.os "linux" -}}
+{{- $distro := .chezmoi.osRelease.id -}}
 #!/bin/bash
 set -euo pipefail
 
 echo "📦 Installing system packages..."
 
-{{ if eq .chezmoi.osRelease.id "ubuntu" "debian" "pop" }}
+{{ if eq $distro "ubuntu" "debian" "pop" }}
 sudo apt update -qq
 sudo apt install -y \
   zsh git curl wget unzip jq tree \
@@ -19,7 +20,7 @@ sudo apt install -y \
 [ ! -f /usr/local/bin/bat ] && sudo ln -s /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
 [ ! -f /usr/local/bin/fd ] && sudo ln -s /usr/bin/fdfind /usr/local/bin/fd 2>/dev/null || true
 
-{{ else if eq .chezmoi.osRelease.id "arch" "endeavouros" "manjaro" }}
+{{ else if eq $distro "arch" "endeavouros" "manjaro" }}
 sudo pacman -S --needed --noconfirm \
   zsh git curl wget unzip jq tree \
   base-devel cmake \
@@ -32,7 +33,7 @@ sudo pacman -S --needed --noconfirm \
   jless yq age sops tldr \
   fastfetch wl-clipboard
 
-{{ else if eq .chezmoi.osRelease.id "fedora" }}
+{{ else if eq $distro "fedora" }}
 sudo dnf install -y \
   zsh git curl wget unzip jq tree \
   @development-tools cmake \
