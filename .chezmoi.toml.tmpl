@@ -1,10 +1,14 @@
 {{- $email := "" -}}
 {{- $name := "" -}}
+{{- $autosync := "" -}}
 {{- if hasKey .chezmoi.config.data "email" -}}
 {{-   $email = .chezmoi.config.data.email -}}
 {{- end -}}
 {{- if hasKey .chezmoi.config.data "name" -}}
 {{-   $name = .chezmoi.config.data.name -}}
+{{- end -}}
+{{- if hasKey .chezmoi.config.data "autosync" -}}
+{{-   $autosync = .chezmoi.config.data.autosync -}}
 {{- end -}}
 {{- if not $email -}}
 {{-   $email = promptString "Email address" -}}
@@ -12,10 +16,14 @@
 {{- if not $name -}}
 {{-   $name = promptString "Full name" -}}
 {{- end -}}
+{{- if not $autosync -}}
+{{-   $autosync = promptString "Enable dotfiles auto-sync every 6 hours? ⚠️  This will auto-pull remote changes (y/n)" -}}
+{{- end -}}
 
 [data]
   email = {{ $email | quote }}
   name = {{ $name | quote }}
+  autosync = {{ $autosync | quote }}
 
 [git]
   autoCommit = false

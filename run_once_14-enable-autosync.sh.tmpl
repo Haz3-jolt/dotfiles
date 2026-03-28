@@ -2,10 +2,20 @@
 set -euo pipefail
 
 {{ if eq .chezmoi.os "linux" }}
+{{   if eq .autosync "y" }}
 echo "⏰ Enabling dotfiles auto-sync timer..."
 systemctl --user daemon-reload
 systemctl --user enable --now chezmoi-sync.timer
 echo "✅ Auto-sync enabled (runs every 6 hours)"
+{{   else }}
+echo "🚫 Auto-sync disabled by user"
+systemctl --user stop chezmoi-sync.timer 2>/dev/null || true
+systemctl --user disable chezmoi-sync.timer 2>/dev/null || true
+rm -f ~/.config/systemd/user/chezmoi-sync.timer
+rm -f ~/.config/systemd/user/chezmoi-sync.service
+systemctl --user daemon-reload
+echo "✅ Auto-sync service removed"
+{{   end }}
 {{ else }}
 echo "⏰ Skipping systemd timer (not available on macOS)"
 {{ end }}

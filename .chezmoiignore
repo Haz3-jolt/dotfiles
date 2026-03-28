@@ -4,3 +4,8 @@ LICENSE
 .git
 .gitignore
 refactor.md
+
+{{ if ne .autosync "y" }}
+dot_config/systemd/user/chezmoi-sync.timer
+dot_config/systemd/user/chezmoi-sync.service
+{{ end }}

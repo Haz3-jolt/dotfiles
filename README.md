@@ -1,6 +1,6 @@
 # Haz3's Dotfiles
 
-Fully automated development environment setup managed with [chezmoi](https://chezmoi.io). One command to go from a fresh Linux or macOS install to a fully configured shell with 50+ modern CLI tools.
+Fully automated development environment setup managed with [chezmoi](https://chezmoi.io). One command to go from a fresh Linux or macOS install to a fully configured shell with 50+ modern CLI tools. Works on both Linux and macOS out of the box.
 
 ## Quick Start
 
@@ -68,9 +68,9 @@ That's it. Grab a coffee — everything installs automatically.
 - **gping** — ping with a graph
 - **bandwhich** — bandwidth utilization monitor
 
-### System Services (systemd)
+### System Services (systemd, Linux only)
 - **ssh-agent** — auto-started via systemd user service
-- **chezmoi-sync** — auto-syncs dotfiles every 6 hours
+- **chezmoi-sync** — auto-syncs dotfiles every 6 hours (opt-in during setup)
 
 ## Supported Platforms
 
@@ -110,6 +110,7 @@ The bootstrap runs numbered scripts in order:
 On first run, you'll be prompted for:
 - **Email** — used for SSH key generation and git config
 - **Name** — used for git config
+- **Auto-sync (y/n)** — enables a systemd timer that pulls dotfile updates every 6 hours (Linux only). ⚠️ If enabled, remote changes are auto-applied — say `n` if you prefer manual updates
 
 These are stored in `~/.config/chezmoi/chezmoi.toml` and only asked once.
 
