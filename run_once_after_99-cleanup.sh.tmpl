@@ -65,7 +65,7 @@ if [ -x "$HOME/.cargo/bin/cargo" ]; then
 
     if ! command -v "$binary" >/dev/null 2>&1; then
       echo "  Installing $tool..."
-      cargo install "$tool" --locked
+      "$HOME/.cargo/bin/cargo" install "$tool" --locked
     else
       echo "  ✔ $tool already installed"
     fi
@@ -75,7 +75,7 @@ if [ -x "$HOME/.cargo/bin/cargo" ]; then
   # Install yazi (requires yazi-build)
   if ! command -v yazi >/dev/null 2>&1; then
     echo "  Installing yazi via yazi-build..."
-    cargo install --force yazi-build --locked
+    "$HOME/.cargo/bin/cargo" install --force yazi-build --locked
     yazi-build
   else
     echo "  ✔ yazi already installed"
