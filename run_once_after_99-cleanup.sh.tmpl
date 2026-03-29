@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-# Ensure cargo is in PATH (installed in a previous script's shell)
+# Ensure real cargo is in PATH (not Windows npm shim in WSL)
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 echo "🧹 Cleaning up..."
 
@@ -11,7 +12,7 @@ ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 find "$ZDOTDIR" -name "*.zwc" -type f -delete 2>/dev/null || true
 
 # Install remaining tools via cargo if not already installed
-if command -v cargo >/dev/null; then
+if [ -x "$HOME/.cargo/bin/cargo" ]; then
   echo "📦 Installing Rust-based tools..."
 
   CARGO_TOOLS=(
