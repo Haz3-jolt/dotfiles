@@ -61,6 +61,12 @@ export GPG_TTY=$(tty)
 
 # --- PATH ---
 typeset -U PATH path  # Remove duplicates
+
+# Strip Windows paths in WSL to prevent shim conflicts (e.g. npm's fake cargo)
+if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop || -n "$WSL_DISTRO_NAME" ]]; then
+  path=("${(@)path:#/mnt/c/*}")
+fi
+
 path=(
   "$HOME/.local/bin"
   "$HOME/.cargo/bin"
