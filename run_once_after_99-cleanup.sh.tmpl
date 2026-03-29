@@ -82,6 +82,20 @@ if command -v cargo >/dev/null; then
 fi
 
 {{ if eq .chezmoi.os "linux" }}
+# Install fastfetch from GitHub releases
+if ! command -v fastfetch >/dev/null; then
+  echo "Installing fastfetch..."
+  FASTFETCH_VERSION=$(curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest | grep -Po '"tag_name": "\K[^"]*')
+  curl -Lo fastfetch.deb "https://github.com/fastfetch-cli/fastfetch/releases/download/${FASTFETCH_VERSION}/fastfetch-linux-amd64.deb" 2>/dev/null \
+    && sudo dpkg -i fastfetch.deb && rm fastfetch.deb \
+    || {
+      # Fallback for non-deb distros: use tarball
+      curl -Lo fastfetch.tar.gz "https://github.com/fastfetch-cli/fastfetch/releases/download/${FASTFETCH_VERSION}/fastfetch-linux-amd64.tar.gz"
+      tar xf fastfetch.tar.gz --strip-components=2 -C ~/.local/bin fastfetch-linux-amd64/usr/bin/fastfetch
+      rm fastfetch.tar.gz
+    }
+fi
+
 # Install lazygit (not available via cargo)
 if ! command -v lazygit >/dev/null; then
   echo "Installing lazygit..."

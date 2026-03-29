@@ -76,4 +76,4 @@ source "$HOME/google-cloud-sdk/path.zsh.inc" 2>/dev/null
 source "$HOME/google-cloud-sdk/completion.zsh.inc" 2>/dev/null
 
 # --- Load sensitive keys and credentials ---
-source "$ZDOTDIR/keys.zsh"
+[ -f "$ZDOTDIR/keys.zsh" ] && source "$ZDOTDIR/keys.zsh"
