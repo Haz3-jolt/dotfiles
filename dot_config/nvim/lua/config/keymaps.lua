@@ -1,0 +1,2 @@
+-- Add any custom keymaps here
+-- LazyVim provides extensive defaults: https://www.lazyvim.org/keymaps

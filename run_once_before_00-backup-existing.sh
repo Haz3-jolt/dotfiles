@@ -26,6 +26,7 @@ backup "$HOME/.gitconfig"                 ".gitconfig"
 backup "$HOME/.config/zsh"                ".config/zsh"
 backup "$HOME/.config/starship.toml"      ".config/starship.toml"
 backup "$HOME/.config/mise"               ".config/mise"
+backup "$HOME/.config/nvim"               ".config/nvim"
 
 if [ "$BACKED_UP" = true ]; then
   echo "✅ Existing dotfiles backed up to $BACKUP_DIR"
