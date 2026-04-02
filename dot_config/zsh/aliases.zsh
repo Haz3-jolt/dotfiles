@@ -103,3 +103,6 @@ alias listening="lsof -i -P | grep LISTEN"
 # --- Misc ---
 alias weather="curl wttr.in"
 alias cheat="curl cheat.sh"
+
+# --- Zellij ---
+alias work="zellij --config ~/.config/zellij/config_work.kdl"
